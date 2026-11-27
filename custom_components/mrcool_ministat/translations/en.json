@@ -1,0 +1,4 @@
+{"config": {"step": {
+  "user": {"title": "MRCOOL Mini Stat", "description": "Wake the Mini Stat's Bluetooth first (hold Temp Up + Power for 5 seconds).", "data": {"address": "Device"}},
+  "confirm": {"description": "Set up {name}?"}},
+  "abort": {"already_configured": "Already set up"}}}
