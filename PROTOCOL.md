@@ -59,4 +59,4 @@ P: 1 on, 0 off (with K=0).
 X (digit 7): toggles with some extras (seen 1 around turbo and follow me); meaning TBD.
 
 ### Status readback
-`TTM(SC1)` field 13 looks like the live state: `1469000` = on, heat, 69°F, fan auto; `1569010` after FP; `1469001`. Format appears to be P M TT F + flags, so HA can probably read the real mode/setpoint instead of assuming it.
+`TTM(SC1)` field 13 looks like the live state: `1469000` = on, heat, 69°F, fan auto; `1569010` after FP; `1469001`. Format: P M TT F S W where S = sleep and W = follow me (confirmed 2026-11-27; turbo, swing and LED are not reported), so HA can probably read the real mode/setpoint instead of assuming it.

@@ -18,19 +18,19 @@ class UnitState:
     setpoint: int = 69
     fan: str = "0"
     sleep: bool = False
-    swing: bool = False
+    follow_me: bool = False
     from_device: bool = False
 
 
 def parse_unit(code: str) -> UnitState | None:
-    """Field 13 of the State reply, e.g. 1469000 = on, heat, 69F, fan auto, sleep 0, swing 0."""
+    """Field 13 of the State reply, e.g. 1469000 = on, heat, 69F, fan auto, sleep 0, follow me 0."""
     if len(code) < 7 or not code.isdigit():
         return None
     mode, tt, fan = code[1], int(code[2:4]), code[4]
     if mode not in "012345" or not 55 <= tt <= 90 or fan not in "0123":
         return None
     return UnitState(power=code[0] != "0", mode=mode, setpoint=tt, fan=fan,
-                     sleep=code[5] == "1", swing=code[6] == "1", from_device=True)
+                     sleep=code[5] == "1", follow_me=code[6] == "1", from_device=True)
 
 
 class MiniStat:
@@ -115,7 +115,7 @@ class MiniStat:
         # remember what we asked for until the next status poll confirms it
         if key == "0":
             self.unit = UnitState(power=p == "1", mode=m, setpoint=t, fan=f, sleep=s == "1",
-                                  swing=u.swing, from_device=False)
+                                  follow_me=u.follow_me, from_device=False)
 
     async def disconnect(self) -> None:
         if self._client:

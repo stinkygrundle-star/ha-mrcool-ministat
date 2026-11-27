@@ -17,6 +17,6 @@
   "documentation": "https://github.com/stinkygrundle-star/ha-mrcool-ministat",
   "iot_class": "local_polling",
   "requirements": [],
-  "version": "0.2.0",
+  "version": "0.2.1",
   "issue_tracker": "https://github.com/stinkygrundle-star/ha-mrcool-ministat/issues"
 }

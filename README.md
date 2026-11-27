@@ -22,7 +22,7 @@ Manual install: copy `custom_components/mrcool_ministat` into your HA `config/cu
 - **One connection at a time.** While HA is connected, the SmartHVAC phone app can't connect. Disable the integration if you need the app.
 - **Bluetooth wake.** The Mini Stat turns its Bluetooth off when nothing is connected (within a few minutes). HA keeps it awake while connected, but after a long HA outage or power cut you must wake it again (Temp Up + Power, 5 s). An automation that notifies you when `sensor.<name>_temperature` goes unavailable is a good idea.
 - **Range.** Your HA Bluetooth adapter (or an ESPHome Bluetooth proxy) needs to be within range of the thermostat.
-- Toggle buttons don't report their on/off state yet.
+- Turbo, swing, louver step and display LED are press-to-toggle buttons; the thermostat doesn't report their state (the LED in particular can't be known, since the Mini Stat talks to the unit by one-way IR). Follow me state is reported as an attribute on the climate entity.
 
 ## How it works
 The Mini Stat exposes a BLE serial service. Commands are plain ASCII (`TTM(SC1)` for status, `TTM(AS,...)` to set state). See [PROTOCOL.md](PROTOCOL.md). Contributions and captures from other units/firmware are welcome.

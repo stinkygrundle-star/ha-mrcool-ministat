@@ -77,7 +77,7 @@ class MiniStatClimate(CoordinatorEntity, ClimateEntity):
 
     @property
     def extra_state_attributes(self):
-        return {"swing": self._u.swing, "state_from_device": self._u.from_device}
+        return {"follow_me": self._u.follow_me, "state_from_device": self._u.from_device}
 
     async def _after(self):
         self.async_write_ha_state()
