@@ -29,7 +29,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
             await stat.poll()
         except Exception as err:  # noqa: BLE001
             raise UpdateFailed(str(err)) from err
-        return {"temperature": stat.temperature, "humidity": stat.humidity, "raw": stat.raw_state}
+        return {"temperature": stat.temperature, "humidity": stat.humidity,
+                "battery_voltage": _battery(stat.raw_state), "raw": stat.raw_state}
 
     coord = DataUpdateCoordinator(hass, _LOGGER, name=DOMAIN, update_method=_update,
                                   update_interval=timedelta(seconds=POLL_SECONDS))
@@ -45,3 +46,12 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         stat, _ = hass.data[DOMAIN].pop(entry.entry_id)
         await stat.disconnect()
     return ok
+
+
+def _battery(raw):
+    """Battery voltage from TTM(SC1) field 7 (two AA cells, e.g. 2.6)."""
+    try:
+        v = float(raw[7])
+    except (TypeError, IndexError, ValueError):
+        return None
+    return v if 0.5 < v < 4.0 else None

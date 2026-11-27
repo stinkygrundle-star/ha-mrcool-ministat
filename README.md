@@ -7,7 +7,7 @@ Unofficial. Not affiliated with MRCOOL. Tested on one unit (firmware V1.1.2) wit
 ## What you get
 - **Climate entity:** off, auto, cool, dry, fan only, heat · setpoint 62–86 °F · fan auto/low/medium/high · presets sleep and freeze protection (FP)
 - **Real state readback:** changes made on the thermostat or in the app show up in HA
-- **Sensors:** room temperature and humidity from the Mini Stat
+- **Sensors:** room temperature, humidity and battery voltage (2 x AA; roughly 3.0 V new, replace around 2.4 V) from the Mini Stat
 - **Buttons:** turbo, swing, louver step, display LED, follow me (these are toggles, like the app)
 
 ## Install (HACS)
