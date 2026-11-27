@@ -21,6 +21,27 @@ Manual install: copy `custom_components/mrcool_ministat` into your HA `config/cu
 ## Things to know
 - **One connection at a time.** While HA is connected, the SmartHVAC phone app can't connect. Disable the integration if you need the app.
 - **Bluetooth wake.** The Mini Stat turns its Bluetooth off when nothing is connected (within a few minutes). HA keeps it awake while connected, but after a long HA outage or power cut you must wake it again (Temp Up + Power, 5 s). An automation that notifies you when `sensor.<name>_temperature` goes unavailable is a good idea.
+- **Batteries.** The Mini Stat runs on 2 x AA and its screen only shows a low-battery icon late. The `Battery voltage` sensor (about 3.0 V with new batteries) lets you get warned early. Suggested phone alert, replacing the entity and notify service names with yours:
+
+  ```yaml
+  alias: Mini Stat low battery
+  triggers:
+    - trigger: numeric_state
+      entity_id: sensor.mini_stat_battery_voltage
+      below: 2.4
+      for: { minutes: 30 }
+    - trigger: time
+      at: "09:00:00"   # daily reminder until replaced
+  conditions:
+    - condition: numeric_state
+      entity_id: sensor.mini_stat_battery_voltage
+      below: 2.4
+  actions:
+    - action: notify.mobile_app_your_phone
+      data:
+        title: Replace Mini Stat batteries
+        message: "Mini Stat batteries are at {{ states('sensor.mini_stat_battery_voltage') }} V. Time to replace the 2 AA batteries."
+  ```
 - **Range.** Your HA Bluetooth adapter (or an ESPHome Bluetooth proxy) needs to be within range of the thermostat.
 - Turbo, swing, louver step and display LED are press-to-toggle buttons; the thermostat doesn't report their state (the LED in particular can't be known, since the Mini Stat talks to the unit by one-way IR). Follow me state is reported as an attribute on the climate entity.
 
